@@ -39,6 +39,10 @@ class ButtonsConfig{
         this.saveConfig()
     }
 
+    setGroupCondition(groupId, tagId){
+        this.groups[groupId].conditionId = tagId
+    }
+
     getTag(tagId){
         return this.tags.find((tag) => tag.stashId == tagId)
     }
@@ -151,6 +155,7 @@ class ButtonsConfigUI{
 
         const groupsList = this.buttonsConfig.getGroups()
         for (const group of groupsList) {
+            const currentGroup = this.buttonsConfig.groups[group]
             const groupTag = document.createElement('div')
             groupTag.setAttribute("class", "card card-sm")
             groupTag.id = "configModalGroupsList" + group
@@ -177,21 +182,49 @@ class ButtonsConfigUI{
                 this.groupChangeType(event, group)
             })
 
+            const inputRow = document.createElement("div")
+            inputRow.classList.add("row", "mt-2","mb-2","mr-3")
+
             const positionGroup = document.createElement("div")
-            positionGroup.setAttribute("class", "input-group input-group-sm ml-1 col-3")
+            positionGroup.setAttribute("class", "input-group input-group-sm col-4")
             positionGroup.innerHTML = `
             <div class='input-group-prepend'>
                 <span class='input-group-text'>Pos.</span>
             </div>
             `
             const positionField = document.createElement("input")
-            positionField.value = this.buttonsConfig.groups[group].order
+            positionField.value = currentGroup.order
             positionField.classList.add("form-control")
             positionGroup.appendChild(positionField)
             positionField.addEventListener("change", (event)=> {
                 this.buttonsConfig.moveGroup(group, event.target.value)
                 this.refreshGroups()
             })
+
+            const conditionGroup = document.createElement("div")
+            conditionGroup.setAttribute("class", "input-group input-group-sm col-8")
+            conditionGroup.id="condition"
+            conditionGroup.innerHTML = `
+            <div class='input-group-prepend'>
+                <span class='input-group-text'>Condition Tag</span>
+            </div>
+            `
+            const conditionInput = document.createElement("select")
+            conditionInput.classList.add("form-control")
+            let options = "<option value='-1'>Always Active</option>"
+            this.buttonsConfig.tags.map(tag => {
+                let selected = currentGroup.conditionId == tag.stashId ? "selected" : ""
+                options+= "<option value='" + tag.stashId + "' " + selected +" >" + tag.getDisplayName() + "</option>"
+            })
+            conditionInput.innerHTML = options
+            conditionInput.addEventListener("change", event => {
+                this.buttonsConfig.setGroupCondition(group, event.target.value)
+            })
+            conditionGroup.appendChild(conditionInput)
+
+            inputRow.appendChild(positionGroup)
+            inputRow.appendChild(conditionGroup)
+
 
 
             const btnsContainer = document.createElement("div")
@@ -200,7 +233,7 @@ class ButtonsConfigUI{
             btnsContainer.appendChild(groupedBtn)
             btnsContainer.appendChild(singleBtn)
             groupTag.querySelector("div > div").appendChild(btnsContainer)
-            btnsContainer.appendChild(positionGroup)
+            groupTag.querySelector("div > div").appendChild(inputRow)
 
             setButtonActive(btnsContainer.querySelector("#easyTagButtongroupType-" + group + "_" + this.buttonsConfig.groups[group].type), true)
 

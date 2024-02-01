@@ -169,10 +169,20 @@ class PluginUI {
         this.UI_CONTAINER.querySelector("#rating-output").innerText = this.stashQL.sceneData.rating100/10
     }
 
-    updateDisplayGroups(){
+    updateDisplayGroups(addedIds = [], removedIds = []){
         for (const groupContainer of this.groupContainers) {
             const groupName = groupContainer.id.slice(12)
-            groupContainer.display = this.buttonsConfig.groups[groupName].maybeDisplayGroup(this.stashQL.sceneData.tags) ? "block" : "none"
+            const tagIds = this.stashQL.sceneData.tags.map(tag => tag.id)
+            const currentGroup =this.buttonsConfig.groups[groupName]
+            groupContainer.style.display = currentGroup.maybeDisplayGroup(tagIds) ? "flex" : "none"
+
+            // Due to lag, also force the newly changed tags
+            if(addedIds.includes(currentGroup.conditionId)){
+                groupContainer.style.display = "flex"
+            }
+            else if(removedIds.includes(currentGroup.conditionId)){
+                groupContainer.style.display = "none"
+            }
         }
     }
 
@@ -182,10 +192,13 @@ class PluginUI {
         // Add or Remove tag in Stash
         if(this.stashQL.sceneHasTag(event.target.id)){
             this.stashQL.removeTag(event.target.id)
+            this.updateDisplayGroups([],[event.target.id])
         }
         else{
             this.stashQL.addTag(event.target.id)
+            this.updateDisplayGroups([event.target.id], [])
         }
+        
     }
 
     switchSingleTag(event){
@@ -202,6 +215,7 @@ class PluginUI {
             }
         }
         this.stashQL.batchUpdateTags([event.target.id], removeTags)
+        this.updateDisplayGroups([event.target.id], removeTags)
     }
 
     changeRating(event){

@@ -24,7 +24,6 @@ ToDo
 
 Features for the future
 - Background color for each group
-- Groups that only appear when a Tag is selected
 - Config export/restore to file
 
 
@@ -34,6 +33,7 @@ This will allow you to define:
 - Tag groups you want to use
 - Which tag belongs to which group
 - Set aliases for Tags (to shorten their names for example)
+- Only display groups of tags if a certain tag is selected
 
 # Warning
 The configuration is saved in the brower's LocalStorage, don't clear it or you will lose your configuration !

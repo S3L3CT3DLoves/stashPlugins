@@ -36,11 +36,11 @@ class TagConfiguration{
 }
 
 class GroupConfiguration{
-    constructor(title="", type = GroupType.Split, order = -1, conditionIds = []){
+    constructor(title="", type = GroupType.Split, order = -1, conditionId = "-1"){
         this.type = type
         this.order = order
         this.title = title
-        this.conditionIds = conditionIds
+        this.conditionId = conditionId
     }
 
     static fromSavedData(savedObject, title = ""){
@@ -48,15 +48,15 @@ class GroupConfiguration{
             title != "" ? title : savedObject.title,
             savedObject.type,
             savedObject.order,
-            savedObject.conditionIds
+            savedObject.conditionId
         )
     }
 
     maybeDisplayGroup(activeTags){
-        if(this.conditionIds == []){
+        if(this.conditionId == "-1"){
             return true
         }
 
-        return this.conditionIds.some(id => activeTags.includes(id))
+        return activeTags.includes(this.conditionId)
     }
 }
