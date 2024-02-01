@@ -36,17 +36,27 @@ class TagConfiguration{
 }
 
 class GroupConfiguration{
-    constructor(title="", type = GroupType.Split, order = -1){
+    constructor(title="", type = GroupType.Split, order = -1, conditionIds = []){
         this.type = type
         this.order = order
         this.title = title
+        this.conditionIds = conditionIds
     }
 
     static fromSavedData(savedObject, title = ""){
         return new GroupConfiguration(
             title != "" ? title : savedObject.title,
             savedObject.type,
-            savedObject.order
+            savedObject.order,
+            savedObject.conditionIds
         )
+    }
+
+    maybeDisplayGroup(activeTags){
+        if(this.conditionIds == []){
+            return true
+        }
+
+        return this.conditionIds.some(id => activeTags.includes(id))
     }
 }

@@ -35,7 +35,6 @@ class StashGraphQL{
             this.sceneData.rating100 = jsonData.data.sceneUpdate.rating100
             this.sceneData.tags = jsonData.data.sceneUpdate.tags
         }
-        console.log(this.sceneData)
     }
 
     sceneHasTag(tagId){

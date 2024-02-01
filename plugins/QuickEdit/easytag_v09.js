@@ -4,6 +4,7 @@ class PluginUI {
     constructor(stashQL, buttonsConfig){
         this.stashQL = stashQL
         this.buttonsConfig = buttonsConfig
+        this.groupContainers = []
 
         this.ENABLED = false
         this.UI_TAB = document.createElement("div")
@@ -32,6 +33,8 @@ class PluginUI {
             const groupContainer = document.createElement("div")
             groupContainer.setAttribute("class", "form-group row")
             groupContainer.id = "btnContainer" + groupName
+
+            this.groupContainers.push(groupContainer)
     
             const label = document.createElement("label")
             label.setAttribute("class", "form-label col-form-label col-2 my-auto font-weight-bold text-truncate")
@@ -81,7 +84,6 @@ class PluginUI {
     }
 
     show(){
-        console.log("Show")
         // Add tab in tablist
         const tabParent = document.querySelector("div[role='tablist']")
         tabParent.insertBefore(this.UI_TAB,tabParent.lastChild)
@@ -98,7 +100,6 @@ class PluginUI {
 
         // When switching scenes through the Video navigation, if the QuickEdit tab was already active, it stays active
         if(this.UI_TAB.querySelector("a").classList.contains("active")){
-            console.log("active");
             this.switchTab(this.UI_TAB)
         }
     }
@@ -107,6 +108,7 @@ class PluginUI {
         this.UI_TAB.remove()
         this.UI_CONTAINER.remove()
         this.stashQL.sceneData = {}
+        this.groupContainers = []
     }
 
     /** Called when a tab is clicked, either displays the plugin or hides it to allow normal Stash behaviour */
@@ -154,17 +156,24 @@ class PluginUI {
         const allButtons = this.UI_CONTAINER.querySelectorAll("#buttons-container button")
         for (const btn of allButtons) {
             if(this.stashQL.sceneHasTag(btn.id)){
-                console.log("HasTag")
                 setButtonActive(btn, true)
             }
             else{
                 setButtonActive(btn, false)
             }
         }
+        this.updateDisplayGroups()
     
         // Set rating
         this.UI_CONTAINER.querySelector("#rating-slider").value = this.stashQL.sceneData.rating100/10
         this.UI_CONTAINER.querySelector("#rating-output").innerText = this.stashQL.sceneData.rating100/10
+    }
+
+    updateDisplayGroups(){
+        for (const groupContainer of this.groupContainers) {
+            const groupName = groupContainer.id.slice(12)
+            groupContainer.display = this.buttonsConfig.groups[groupName].maybeDisplayGroup(this.stashQL.sceneData.tags) ? "block" : "none"
+        }
     }
 
     toggleTag(event){
@@ -211,7 +220,6 @@ class PluginUI {
 
 /** Called when page changes to verify if the plugin must be displayed */
 function checkDisplay(){
-    console.log("New page")
     const patternScenes = new URLPattern({ pathname: '/scenes/*' });
     main(patternScenes.test(window.location.href))
 }
