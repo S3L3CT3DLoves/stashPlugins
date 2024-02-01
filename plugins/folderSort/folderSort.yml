@@ -8,11 +8,11 @@ exec:
 interface: raw
 tasks:
   - name: 'Run'
-    description: Disable the hook
+    description: Move files
     defaultArgs:
       mode: execute
   - name: 'Dryrun'
-    description: Enable/disable dry-run
+    description: Run the script and log changes, but don't actually move files
     defaultArgs:
       mode: dryrun
   - name: 'Test'
