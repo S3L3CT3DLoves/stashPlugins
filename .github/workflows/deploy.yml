@@ -12,6 +12,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 jobs:
   build:
@@ -26,7 +27,7 @@ jobs:
     - run: |
         cd main
         ./build_site.sh ../_site/stable
-    - uses: actions/upload-pages-artifact@v2
+    - uses: actions/upload-pages-artifact@v3
     
   deploy:
     environment:
