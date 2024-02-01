@@ -1,0 +1,21 @@
+name: folderSort
+description: Organise your PMV folder(s) based on Stash info
+url: https://github.com/stashapp/CommunityScripts
+version: 0.2
+exec:
+  - python
+  - "{pluginDir}/folderSort.py"
+interface: raw
+tasks:
+  - name: 'Run'
+    description: Disable the hook
+    defaultArgs:
+      mode: execute
+  - name: 'Dryrun'
+    description: Enable/disable dry-run
+    defaultArgs:
+      mode: dryrun
+  - name: 'Test'
+    description: Test code
+    defaultArgs:
+      mode: test
