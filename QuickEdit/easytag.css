@@ -1,0 +1,40 @@
+#configModal {
+    position:               fixed;
+    top:                    10%;
+    left:                   10%;
+    max-width:              70%;
+    min-width:              50%;
+    height:                 80%;
+    padding:                2em;
+    background:             #202b33;
+    color:                  #f5f8fa;
+    border:                 3px double black;
+    border-radius:          1ex;
+    z-index:                777;
+}
+
+#configModal #configModalListContainer button{
+    width:                  6rem;
+}
+
+#configModal .scrollable{
+    height:                 calc(100% - 70px);
+    overflow-y:             auto;
+}
+
+.card-sm {
+    padding:                0;
+    border-radius:          2ex;
+}
+
+.card-sm .card-body {
+    padding:                0.5em;
+}
+
+#configModal .minimal {
+    padding:                0;
+}
+
+#pluginContainer .btn-group {
+    flex-wrap:              wrap;
+}
