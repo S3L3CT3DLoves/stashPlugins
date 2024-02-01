@@ -27,7 +27,7 @@ jobs:
     - run: |
         cd main
         ./build_site.sh ../_site/stable
-    - uses: actions/upload-pages-artifact@v2
+    - uses: actions/upload-pages-artifact@v3
     
   deploy:
     environment:
@@ -38,5 +38,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.3
+        uses: actions/deploy-pages@v4
     
