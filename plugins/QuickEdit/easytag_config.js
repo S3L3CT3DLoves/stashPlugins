@@ -235,7 +235,7 @@ class ButtonsConfigUI{
             groupTag.querySelector("div > div").appendChild(btnsContainer)
             groupTag.querySelector("div > div").appendChild(inputRow)
 
-            setButtonActive(btnsContainer.querySelector("#easyTagButtongroupType-" + group + "_" + this.buttonsConfig.groups[group].type), true)
+            setButtonActive(btnsContainer.querySelector("[id='easyTagButtongroupType-" + group + "_" + this.buttonsConfig.groups[group].type + "']"), true)
 
             groupsListContainer.appendChild(groupTag)
         }
@@ -245,7 +245,7 @@ class ButtonsConfigUI{
     removeGroup(groupID){
         console.log("Remove "+ groupID);
         this.buttonsConfig.removeGroup(groupID)
-        this.BTNCFG_CONTAINER.querySelector("#configModalGroupsList" + groupID).remove()
+        this.BTNCFG_CONTAINER.querySelector("[id='configModalGroupsList" + groupID + "']").remove()
         this.refreshTagGroups()
     }
 

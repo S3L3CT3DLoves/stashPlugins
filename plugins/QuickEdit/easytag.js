@@ -318,6 +318,9 @@ function createButton(id = -1, name, classAttr, clickListener){
 }
 
 function setButtonActive(button, enabled){
+    if(button == null){
+        return
+    }
     if(enabled){
         button.classList.add("active")
         button.classList.remove("btn-secondary")
