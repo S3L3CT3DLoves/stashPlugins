@@ -1,9 +1,9 @@
-name: Check my public IP
+name: Public IP
 description: Query ident.me to check my current IP (ensure VPN is working)
 version: 0.2
 exec:
   - python
-  - "{pluginDir}/my_ip.py"
+  - "{pluginDir}/myIp.py"
 interface: raw
 tasks:
   - name: Get my IP
