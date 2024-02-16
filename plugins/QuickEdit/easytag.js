@@ -250,7 +250,7 @@ const observeUrlChange = () => {
     });
     observer.observe(body, { childList: true, subtree: true });
   };
-window.onload = observeUrlChange;
+window.addEventListener("popstate", observeUrlChange)
 
 
 const btnConfig = new ButtonsConfig()
