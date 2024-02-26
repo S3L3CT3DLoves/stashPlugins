@@ -1,3 +1,4 @@
+const patternScenes = new URLPattern({ pathname: '/scenes/*' });
 
 /** Main UI of the plugin */
 class PluginUI {
@@ -234,7 +235,7 @@ class PluginUI {
 
 /** Called when page changes to verify if the plugin must be displayed */
 function checkDisplay(){
-    const patternScenes = new URLPattern({ pathname: '/scenes/*' });
+    console.log("Page Change");
     main(patternScenes.test(window.location.href))
 }
 
@@ -250,7 +251,6 @@ const observeUrlChange = () => {
     });
     observer.observe(body, { childList: true, subtree: true });
   };
-window.addEventListener("popstate", observeUrlChange)
 
 
 const btnConfig = new ButtonsConfig()
@@ -289,7 +289,9 @@ async function main(display){
     }
 }
 
+// Init the plugin & page change listener
 checkDisplay()
+observeUrlChange()
 
 
 
