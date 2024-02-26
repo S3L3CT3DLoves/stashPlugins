@@ -94,7 +94,7 @@ class PluginUI {
         containerParent.appendChild(this.UI_CONTAINER)
 
         // Add click listener to all tabs to capture clicks
-        const allTabs = tabParent.querySelectorAll("div[class='nav-item']")
+        const allTabs = document.querySelectorAll("div[role='tablist'] > div[class='nav-item']")
         for (const tab of allTabs) {
             tab.addEventListener("click", () => this.switchTab(tab))
         }
