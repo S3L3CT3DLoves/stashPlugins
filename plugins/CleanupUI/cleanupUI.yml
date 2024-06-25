@@ -1,0 +1,25 @@
+name: CleanupUI
+description: UI plugin to hide features you don't want
+url: https://github.com/stashapp/CommunityScripts
+version: 0.1
+
+ui:
+  javascript:
+    - cleanupUI.js
+
+settings:
+  queue:
+    displayName: Queue
+    type: BOOLEAN
+  markers:
+    displayName: Markers
+    type: BOOLEAN
+  filters:
+    displayName: Filters
+    type: BOOLEAN
+  file_info:
+    displayName: File Info
+    type: BOOLEAN
+  history:
+    displayName: History
+    type: BOOLEAN
