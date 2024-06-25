@@ -128,7 +128,7 @@ class ButtonsConfigUI{
 
     enable(){
         document.body.appendChild(this.BTNCFG_CONTAINER)
-        const btnParent = document.querySelector("div[role='tablist'] > div[role='group']")
+        const btnParent = document.querySelector("div.scene-toolbar > span:nth-child(2)")
         btnParent.insertBefore(this.BTNCFG_BUTTON, btnParent.lastChild)
     }
 

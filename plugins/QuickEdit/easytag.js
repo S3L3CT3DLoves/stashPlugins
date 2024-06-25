@@ -2,8 +2,8 @@ const patternScenes = new URLPattern({ pathname: '/scenes/*' });
 
 /** Main UI of the plugin */
 class PluginUI {
-    constructor(stashQL, buttonsConfig){
-        this.stashQL = stashQL
+    constructor(stashGQL, buttonsConfig){
+        this.stashGQL = stashGQL
         this.buttonsConfig = buttonsConfig
         this.groupContainers = []
 
@@ -108,7 +108,7 @@ class PluginUI {
     hide(){
         this.UI_TAB.remove()
         this.UI_CONTAINER.remove()
-        this.stashQL.sceneData = {}
+        this.stashGQL.sceneData = {}
         this.groupContainers = []
     }
 
@@ -156,7 +156,7 @@ class PluginUI {
         // Set buttons value
         const allButtons = this.UI_CONTAINER.querySelectorAll("#buttons-container button")
         for (const btn of allButtons) {
-            if(this.stashQL.sceneHasTag(btn.id)){
+            if(this.stashGQL.sceneHasTag(btn.id)){
                 setButtonActive(btn, true)
             }
             else{
@@ -166,14 +166,14 @@ class PluginUI {
         this.updateDisplayGroups()
     
         // Set rating
-        this.UI_CONTAINER.querySelector("#rating-slider").value = this.stashQL.sceneData.rating100/10
-        this.UI_CONTAINER.querySelector("#rating-output").innerText = this.stashQL.sceneData.rating100/10
+        this.UI_CONTAINER.querySelector("#rating-slider").value = this.stashGQL.sceneData.rating100/10
+        this.UI_CONTAINER.querySelector("#rating-output").innerText = this.stashGQL.sceneData.rating100/10
     }
 
     updateDisplayGroups(addedIds = [], removedIds = []){
         for (const groupContainer of this.groupContainers) {
             const groupName = groupContainer.id.slice(12)
-            const tagIds = this.stashQL.sceneData.tags.map(tag => tag.id)
+            const tagIds = this.stashGQL.sceneData.tags.map(tag => tag.id)
             const currentGroup =this.buttonsConfig.groups[groupName]
             groupContainer.style.display = currentGroup.maybeDisplayGroup(tagIds) ? "flex" : "none"
 
@@ -191,12 +191,12 @@ class PluginUI {
         setButtonActive(event.target, !event.target.classList.contains("active"))
     
         // Add or Remove tag in Stash
-        if(this.stashQL.sceneHasTag(event.target.id)){
-            this.stashQL.removeTag(event.target.id)
+        if(this.stashGQL.sceneHasTag(event.target.id)){
+            this.stashGQL.removeTag(event.target.id)
             this.updateDisplayGroups([],[event.target.id])
         }
         else{
-            this.stashQL.addTag(event.target.id)
+            this.stashGQL.addTag(event.target.id)
             this.updateDisplayGroups([event.target.id], [])
         }
         
@@ -215,7 +215,7 @@ class PluginUI {
                 removeTags.push(btn.id)
             }
         }
-        this.stashQL.batchUpdateTags([event.target.id], removeTags)
+        this.stashGQL.batchUpdateTags([event.target.id], removeTags)
         this.updateDisplayGroups([event.target.id], removeTags)
     }
 
@@ -224,7 +224,7 @@ class PluginUI {
         ratingOutput.innerText = event.target.value
     
         // Update the value in Stash
-        this.stashQL.setRating(event.target.value*10)
+        this.stashGQL.setRating(event.target.value*10)
     }
 
     clearActiveTab(){
@@ -235,7 +235,6 @@ class PluginUI {
 
 /** Called when page changes to verify if the plugin must be displayed */
 function checkDisplay(){
-    console.log("Page Change");
     main(patternScenes.test(window.location.href))
 }
 
@@ -254,15 +253,15 @@ const observeUrlChange = () => {
 
 
 const btnConfig = new ButtonsConfig()
-const stashQL = new StashGraphQL(window.location.origin + "/graphql")
-const pluginUI = new PluginUI(stashQL, btnConfig)
+const stashGQL = new StashGraphQL(window.location.origin + "/graphql")
+const pluginUI = new PluginUI(stashGQL, btnConfig)
 
 function refreshUI(){
     btnConfig.saveConfig()
     pluginUI.updateDisplay()
 }
 
-const btnConfigUI = new ButtonsConfigUI(stashQL, btnConfig, refreshUI)
+const btnConfigUI = new ButtonsConfigUI(stashGQL, btnConfig, refreshUI)
 
 async function main(display){
 
@@ -275,7 +274,7 @@ async function main(display){
         await delay(500)
 
         // Get Scene data in stash
-        await stashQL.getScene(window.location.pathname.split('/').pop())
+        await stashGQL.getScene(window.location.pathname.split('/').pop())
 
         pluginUI.ENABLED = true
         pluginUI.show()
