@@ -8,7 +8,7 @@ Adds a new Tab to the Scene UI to make one-handed Editing easier 😉
 - Download the whole folder '**QuickEdit**'
 - Place it in your **plugins** folder
 - Reload plugins (Settings > Plugins > Reload)
-- *easytag* appears
+- *quickedit* appears
 
 # Usage
 The plugin is automatically displayed as a Tab called *QuickEdit* in the Scene page

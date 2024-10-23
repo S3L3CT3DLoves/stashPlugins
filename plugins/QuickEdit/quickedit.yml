@@ -1,0 +1,14 @@
+name: QuickEdit
+description: UI plugin to add shortcuts for commonly used tags
+url: https://github.com/stashapp/CommunityScripts
+version: 0.5
+
+ui:
+  css:
+    - quickedit.css
+  javascript:
+    - quickedit_html.js
+    - quickedit_classes.js
+    - quickedit_config.js
+    - quickedit_stashQL.js
+    - quickedit.js

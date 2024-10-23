@@ -6,6 +6,8 @@ class ButtonsConfig{
         this.loadConfig()
     }
 
+    
+
     getGroups(){
         return Object.keys(this.groups).sort((a , b) => this.groups[a].order - this.groups[b].order )
     }
@@ -81,9 +83,10 @@ class ButtonsConfig{
         this.orderTags()
         localStorage.setItem("easytag-groups", JSON.stringify(this.groups))
         localStorage.setItem("easytag-tags", JSON.stringify(this.tags))
+
     }
 
-    loadConfig(){
+    async loadConfig(){
         const storedGroups = localStorage.getItem("easytag-groups")
         const storedTags = localStorage.getItem("easytag-tags")
 
