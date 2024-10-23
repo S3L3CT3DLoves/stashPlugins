@@ -38,7 +38,7 @@ class PluginUI {
             this.groupContainers.push(groupContainer)
     
             const label = document.createElement("label")
-            label.setAttribute("class", "form-label col-form-label col-2 my-auto font-weight-bold text-truncate")
+            label.setAttribute("class", "form-label col-form-label col-3 my-auto font-weight-bold text-truncate")
             label.innerText = groupName + ":"
             label.id = "btnLabel" + groupName
             groupContainer.appendChild(label)
