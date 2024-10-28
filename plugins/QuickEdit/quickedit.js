@@ -1,5 +1,3 @@
-const patternScenes = new URLPattern({ pathname: '/scenes/*' });
-
 /** Main UI of the plugin */
 class PluginUI {
     constructor(stashGQL, buttonsConfig){
@@ -233,23 +231,9 @@ class PluginUI {
 }
 
 
-/** Called when page changes to verify if the plugin must be displayed */
-function checkDisplay(){
-    main(patternScenes.test(window.location.href))
-}
-
-/** Detects page changes */
-const observeUrlChange = () => {
-    let oldHref = document.location.href;
-    const body = document.querySelector("body");
-    const observer = new MutationObserver(mutations => {
-      if (oldHref !== document.location.href) {
-        oldHref = document.location.href;
-        checkDisplay()
-      }
-    });
-    observer.observe(body, { childList: true, subtree: true });
-  };
+PluginApi.Event.addEventListener("stash:location", (e) => {
+    quickEditMain(e.detail.data.location.pathname.startsWith("/scenes/"))
+})
 
 
 const btnConfig = new ButtonsConfig()
@@ -263,8 +247,7 @@ function refreshUI(){
 
 const btnConfigUI = new ButtonsConfigUI(stashGQL, btnConfig, refreshUI)
 
-async function main(display){
-
+async function quickEditMain(display){
     if(display){
         // Always reset the UI, in case this is a Scene -> Scene page change
         pluginUI.hide()
@@ -288,9 +271,8 @@ async function main(display){
     }
 }
 
-// Init the plugin & page change listener
-checkDisplay()
-observeUrlChange()
+// Init the plugin
+quickEditMain(window.location.pathname.startsWith("/scenes/"))
 
 
 
