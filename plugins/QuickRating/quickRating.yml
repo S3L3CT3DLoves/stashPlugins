@@ -1,0 +1,17 @@
+name: QuickRating
+description: More rating UI options (only enable one)
+url: https://github.com/stashapp/CommunityScripts
+version: 0.1
+# requires: CommunityScriptsUILibrary
+
+ui:
+  javascript:
+    - quickRating.js
+
+settings:
+  Bslide10:
+    displayName: Slider 1-10
+    type: BOOLEAN
+  Cslide20:
+    displayName: Slider 1-20
+    type: BOOLEAN
