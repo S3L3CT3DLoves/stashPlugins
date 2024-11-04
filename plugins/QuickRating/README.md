@@ -19,6 +19,8 @@ After installing it in your Stash, enable one of the configuration flags in the 
 - Slide 10: Will display the score as a slider between 1 and 10, with a small textbox to display the number
 - Slide 20: Will display the score as a slider between 1 and 20, with a small textbox to display the number
 
+**Don't forget to reload the browser page after making a Configuration change.**
+
 Not enabling any of the configuration flags will simply use the native rating system in Stash.
 
 *More modes to come, I hope to add a 1-10 star score soon.*
