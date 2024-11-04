@@ -17,7 +17,6 @@ const tabsTextMap = {
 
 function cleanupUI(){
   const tabList = Array.from(document.querySelectorAll("div[role='tablist'] > .nav-item"))
-  console.log(tabList)
   tabList.forEach((tab) => {
     let tabText = tab.textContent.toLocaleLowerCase()
     if (tabText in tabsTextMap && tabsTextMap[tabText] != "") {
@@ -37,7 +36,6 @@ function cleanupUI(){
 
 /** Called when page changes to verify if the plugin must be displayed */
 async function updateDisplay(){
-    console.log("Page Change");
     // DO STUFF HERE
     let active = pagePattern.test(window.location.href)
     if(active){
@@ -55,23 +53,14 @@ async function updateSettings(){
   cleanupUISettings = {...cleanupUISettings, ...config}
 }
 
-/** Detects page changes */
-const observePageChange = () => {
-    let oldHref = document.location.href;
-    const body = document.querySelector("body");
-    const observer = new MutationObserver(mutations => {
-      if (oldHref !== document.location.href) {
-        oldHref = document.location.href;
-        updateDisplay()
-      }
-    });
-    observer.observe(body, { childList: true, subtree: true });
-  };
+PluginApi.Event.addEventListener("stash:location", (e) => {
+  if (e.detail.data.location.pathname.startsWith("/scenes/"))
+    updateDisplay()
+})
 
 // Init the plugin & page change listener
 updateSettings()
 updateDisplay()
-observePageChange()
 
 // Generic helper functions
 
