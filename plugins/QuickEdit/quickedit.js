@@ -110,8 +110,8 @@ class PluginUI {
 
     /** Called when a tab is clicked, either displays the plugin or hides it to allow normal Stash behaviour */
     switchTab(activeTab){
-        console.log("Switch Tab: " , activeTab)
-        console.log("QuickEdit Tab: " , activeTab == this.UI_TAB)
+        console.debug("Switch Tab: " , activeTab)
+        console.debug("QuickEdit Tab: " , activeTab == this.UI_TAB)
         if(activeTab == this.UI_TAB){
             // disable current active tab
             const allTabs = document.querySelectorAll("div[role='tablist'] > div[class='nav-item'] > a")
@@ -133,6 +133,7 @@ class PluginUI {
     
             this.UI_CONTAINER.classList.add("show")
             this.UI_CONTAINER.classList.add("active")
+            console.debug("Showing :" , this.UI_CONTAINER)
     
             this.updateDisplay()
         }
@@ -147,6 +148,7 @@ class PluginUI {
 
     updateDisplay(){
         if(!this.ENABLED){
+            console.debug("Display not enabled")
             return
         }
 
