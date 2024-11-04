@@ -20,7 +20,10 @@ Features
 - Easy rating system
 
 ToDo
-- Lots of testing before v1.0 release
+- Bugfix: When using the native Edit tab, the changes made in QuickEdit are lost
+- Improvement: Search tag in the config menu
+- Improvement: Dropdown list for large groups of type single
+- Improvement: Give more rating options (5-stars, 10-stars, 5-slider, 10-slider, 20-slider)
 
 Features for the future
 - Background color for each group

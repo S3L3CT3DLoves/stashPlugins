@@ -194,29 +194,6 @@ class StashGraphQL{
 
     }
 
-    async setRating(rating){
-        const queryBody = {
-            operationName : "SceneUpdate",
-            query : this._tagQuery,
-            variables :{
-                input : {
-                    id : this.sceneData.id,
-                    rating100 : rating
-                }
-            }
-        }
-
-        let response = fetch(this.endpoint,{
-            method: 'POST',
-            body: JSON.stringify(queryBody),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((ret) => ret.json()).then((ret) => this.updateLocalScene(ret))
-
-        return response
-    }
-
     async getAllTags(){
         const query = `query AllTagsForFilter {
             allTags {

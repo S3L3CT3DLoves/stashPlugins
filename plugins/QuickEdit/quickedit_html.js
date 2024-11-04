@@ -7,20 +7,9 @@ const UI_CONTAINER_HTML = `
 </div>
 `
 
-const RATING_ROW_HTML = `
-            <div class="form-group row" id="rating-row">
-                <label for="rating" class="form-label col-form-label col-3">
-                    <strong>Rating:</strong>
-                </label>
-                <div class="input-group col-9">
-                    <input placeholder="Rating" name="rating" type="range" id="rating-slider" class="form-range form-control" min="1" max="10" value="">
-                    <span class="input-group-text" id="rating-output">0</span>
-                </div>
-            </div>`
-
 const UI_BTNCFG_HTML = `
 <form id="configModal" method="dialog">
-    <h3>EasyTag Buttons Configuration</h3>
+    <h3>QuickEdit Configuration</h3>
     <div class="scrollable">
         <h4 class="mt-2">Groups</h4>
         <div class="mt-2 mb-2" id="configModalGroupsContainer">

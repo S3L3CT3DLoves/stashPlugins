@@ -15,14 +15,12 @@ class PluginUI {
         this.UI_CONTAINER.setAttribute("aria-hidden", "true")
         this.UI_CONTAINER.setAttribute("class", "fade tab-pane")
         this.UI_CONTAINER.innerHTML = UI_CONTAINER_HTML
-        this.UI_CONTAINER.querySelector("#buttons-container").innerHTML = RATING_ROW_HTML
     }
 
     generateButtons(){
         const btnsContainer = this.UI_CONTAINER.querySelector("#buttons-container")
         // Cleanup if this is a re-generate
-        btnsContainer.innerHTML = RATING_ROW_HTML
-        this.UI_CONTAINER.querySelector("#rating-slider").addEventListener("input", (e) => this.changeRating(e))
+        btnsContainer.innerHTML = ""
 
         // Generate all buttons based on ButtonsConfig
         const allGroups = this.buttonsConfig.getGroups()
@@ -136,8 +134,8 @@ class PluginUI {
     
             this.updateDisplay()
         }
-        else if(this.UI_TAB.lastChild.classList.contains("active")){
-            // Close the plugin tab
+        else{
+            // Make sure the plugin is not displayed
             this.UI_TAB.lastChild.classList.remove("active")
     
             this.UI_CONTAINER.classList.remove("show")
@@ -215,14 +213,6 @@ class PluginUI {
         }
         this.stashGQL.batchUpdateTags([event.target.id], removeTags)
         this.updateDisplayGroups([event.target.id], removeTags)
-    }
-
-    changeRating(event){
-        const ratingOutput = this.UI_CONTAINER.querySelector("#rating-output")
-        ratingOutput.innerText = event.target.value
-    
-        // Update the value in Stash
-        this.stashGQL.setRating(event.target.value*10)
     }
 
     clearActiveTab(){

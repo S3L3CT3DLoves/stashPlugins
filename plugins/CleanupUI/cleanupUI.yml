@@ -1,7 +1,7 @@
 name: CleanupUI
 description: UI plugin to hide features you don't want
 url: https://github.com/stashapp/CommunityScripts
-version: 0.1
+version: 0.2
 # requires: CommunityScriptsUILibrary
 
 ui:
