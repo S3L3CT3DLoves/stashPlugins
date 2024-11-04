@@ -161,9 +161,6 @@ class PluginUI {
         }
         this.updateDisplayGroups()
     
-        // Set rating
-        this.UI_CONTAINER.querySelector("#rating-slider").value = this.stashGQL.sceneData.rating100/10
-        this.UI_CONTAINER.querySelector("#rating-output").innerText = this.stashGQL.sceneData.rating100/10
     }
 
     updateDisplayGroups(addedIds = [], removedIds = []){
