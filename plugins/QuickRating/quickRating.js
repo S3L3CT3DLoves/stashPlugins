@@ -109,9 +109,8 @@ async function quickRating(page){
   if(Object.keys(quickRatingConfig).length == 0){
     // Init plugin
     console.log("Init quickRating")
-    ensureLibLoaded("csLib", 500).then(async function(){
-      quickRatingConfig = await getConfig()
-    });
+    await ensureLibLoaded("csLib", 500)
+    quickRatingConfig = await getConfig()
   }
 
   if (scenePagePattern.test(page)){
@@ -146,6 +145,7 @@ function ensureLibLoaded(libname, timeout) {
 
   function waitForLib(resolve, reject) {
       if (window[libname]){
+        console.debug("Library loaded: ", libname)
         resolve(window[libname])
       }
       else if (timeout && (Date.now() - start) >= timeout){
