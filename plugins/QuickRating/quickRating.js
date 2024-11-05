@@ -114,9 +114,11 @@ async function quickRating(page){
 
   if (scenePagePattern.test(page)){
     let quickRatingPlugin = new QuickRating()
-    csLib.waitForElement(".scene-toolbar-group", () => {
-      quickRatingPlugin.updateDisplay()
-    })
+    ensureLibLoaded("csLib", 500).then(function(){
+      csLib.waitForElement(".scene-toolbar-group", () => {
+        quickRatingPlugin.updateDisplay()
+      })
+    });
   }
 }
 
@@ -137,3 +139,21 @@ PluginApi.Event.addEventListener("stash:location", (e) => {
 });
 
 quickRating(window.location.pathname)
+
+function ensureLibLoaded(libname, timeout) {
+  var start = Date.now();
+  return new Promise(waitForLib);
+
+  function waitForLib(resolve, reject) {
+      if (window[libname]){
+        resolve(window[libname])
+      }
+      else if (timeout && (Date.now() - start) >= timeout){
+          console.error("It seems you are missing a javascript library: ", libname)
+          reject(new Error("timeout"))
+      }
+      else{
+        setTimeout(waitForLib.bind(this, resolve, reject), 30)
+      }  
+  }
+}
