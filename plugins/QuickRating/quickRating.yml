@@ -1,7 +1,7 @@
 name: QuickRating
 description: More rating UI options (only enable one)
 url: https://github.com/stashapp/CommunityScripts
-version: 0.2
+version: 0.2.1
 # requires: CommunityScriptsUILibrary
 
 ui:

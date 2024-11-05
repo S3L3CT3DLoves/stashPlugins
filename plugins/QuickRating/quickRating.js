@@ -109,16 +109,16 @@ async function quickRating(page){
   if(Object.keys(quickRatingConfig).length == 0){
     // Init plugin
     console.log("Init quickRating")
-    quickRatingConfig = await getConfig()
+    ensureLibLoaded("csLib", 500).then(async function(){
+      quickRatingConfig = await getConfig()
+    });
   }
 
   if (scenePagePattern.test(page)){
     let quickRatingPlugin = new QuickRating()
-    ensureLibLoaded("csLib", 500).then(function(){
-      csLib.waitForElement(".scene-toolbar-group", () => {
-        quickRatingPlugin.updateDisplay()
-      })
-    });
+    csLib.waitForElement(".scene-toolbar-group", () => {
+      quickRatingPlugin.updateDisplay()
+    })
   }
 }
 
