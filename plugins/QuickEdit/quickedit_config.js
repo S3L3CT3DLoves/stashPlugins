@@ -79,11 +79,16 @@ class ButtonsConfig{
         return tag
     }
 
-    saveConfig(){
+    async saveConfig(){
         this.orderTags()
         localStorage.setItem("easytag-groups", JSON.stringify(this.groups))
         localStorage.setItem("easytag-tags", JSON.stringify(this.tags))
 
+        const defaultConfig = {
+            "Groups" : JSON.stringify(this.groups),
+            "Tags" : JSON.stringify(this.tags)
+        }
+        console.log(await setConfiguration('easytag', defaultConfig))
     }
 
     async loadConfig(){
@@ -98,9 +103,21 @@ class ButtonsConfig{
             this.tags = JSON.parse(storedTags)
             Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
         }
-
     }
 }
+
+const setConfiguration = async (pluginId, values = {}) => {
+    const query = `mutation ConfigurePlugin($pluginId: ID!, $input: Map!) { configurePlugin(plugin_id: $pluginId, input: $input) }`;
+    const queryBody = {
+        query : query,
+        variables : {
+            pluginId : pluginId,
+            input : values
+        }
+    }
+    const response = await csLib.callGQL({ ...queryBody });
+    return response.configurePlugin
+  };
 
 /** ButtonsConfigUI contains the UI to manage the buttons configuration */
 class ButtonsConfigUI{
