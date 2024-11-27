@@ -83,7 +83,6 @@ class ButtonsConfig{
         this.orderTags()
         localStorage.setItem("easytag-groups", JSON.stringify(this.groups))
         localStorage.setItem("easytag-tags", JSON.stringify(this.tags))
-
     }
 
     async loadConfig(){
@@ -98,7 +97,39 @@ class ButtonsConfig{
             this.tags = JSON.parse(storedTags)
             Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
         }
+    }
 
+    saveConfigToFile(){
+        const savedConfig = {
+            groups : this.groups,
+            tags : this.tags
+        }
+
+        // Download the config
+
+        let blob = new Blob([JSON.stringify(savedConfig)], { type: "json" });
+        let a = document.createElement('a');
+        a.download = "QuickEdit.config.json";
+        a.href = URL.createObjectURL(blob);
+        a.dataset.downloadurl = ["json", a.download, a.href].join(':');
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
+    }
+
+    loadConfigFromFile(fileContent){
+        let loadedConfig = JSON.parse(fileContent)
+        console.log(loadedConfig)
+        if("groups" in loadedConfig && "tags" in loadedConfig){
+            this.groups = loadedConfig.groups
+            Object.keys(this.groups).forEach((key) => this.groups[key] = GroupConfiguration.fromSavedData(this.groups[key], key))
+            this.tags = loadedConfig.tags
+            Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
+
+            this.saveConfig()
+        }
     }
 }
 
@@ -113,6 +144,26 @@ class ButtonsConfigUI{
         this.BTNCFG_CONTAINER = document.createElement("dialog")
         this.BTNCFG_CONTAINER.innerHTML = UI_BTNCFG_HTML
         this.BTNCFG_CONTAINER.querySelector("#configModalClose").addEventListener("click", () => this.hide())
+        this.BTNCFG_CONTAINER.querySelector("#configModalDlConfig").addEventListener("click", (e) => {
+            e.preventDefault()
+            this.buttonsConfig.saveConfigToFile()
+        })
+        this.BTNCFG_CONTAINER.querySelector("#configModalUpConfig").addEventListener("click", (e) => {
+            e.preventDefault()
+            var input = document.createElement('input')
+            input.type = 'file'
+            input.accept = ".json"
+            input.onchange = e => { 
+                var file = e.target.files[0]
+                var reader = new FileReader()
+                reader.readAsText(file,'UTF-8')
+                reader.onload = readerEvent => {
+                    this.buttonsConfig.loadConfigFromFile(readerEvent.target.result)
+                    window.location.reload()
+                }
+            }
+            input.click()
+        })
 
         this.refreshGroups()
         this.BTNCFG_CONTAINER.querySelector("#addGroupButton").addEventListener("click", () => this.addGroup())
