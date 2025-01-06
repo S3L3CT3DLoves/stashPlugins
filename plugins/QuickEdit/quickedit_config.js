@@ -398,7 +398,6 @@ class ButtonsConfigUI{
             this.buttonsConfig.getOrCreateTag(stashTag)
         }
         this.buttonsConfig.moveTag(tagID, groupID)
-        console.log(groupID);
     }
 
 }
