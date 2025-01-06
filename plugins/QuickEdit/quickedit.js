@@ -246,8 +246,6 @@ function ensureLibLoaded(libname, timeout) {
     }
 }
 
-await ensureLibLoaded("csLib", 500)
-
 const btnConfig = new ButtonsConfig()
 const stashGQL = new StashGraphQL(window.location.origin + "/graphql")
 const pluginUI = new PluginUI(stashGQL, btnConfig)
@@ -260,6 +258,7 @@ function refreshUI(){
 const btnConfigUI = new ButtonsConfigUI(stashGQL, btnConfig, refreshUI)
 
 async function quickEditMain(display){
+    await ensureLibLoaded("csLib", 500)
     await btnConfig.loadConfig()
     btnConfigUI.refreshConfig(btnConfig)
     if(display){
