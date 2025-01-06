@@ -231,7 +231,6 @@ class ButtonsConfigUI{
             groupTag.querySelector("div > h5").addEventListener("click", () => {
                 let newName = prompt("Rename group to:", group)
                 if(newName && newName != group){
-                    console.log(newName)
                     this.renameGroup(group,newName)
                 }
             })
