@@ -260,6 +260,8 @@ function refreshUI(){
 const btnConfigUI = new ButtonsConfigUI(stashGQL, btnConfig, refreshUI)
 
 async function quickEditMain(display){
+    await btnConfig.loadConfig()
+    btnConfigUI.refreshConfig(btnConfig)
     if(display){
         // Always reset the UI, in case this is a Scene -> Scene page change
         pluginUI.hide()

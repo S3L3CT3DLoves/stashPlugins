@@ -29,8 +29,7 @@ const UI_BTNCFG_HTML = `
     <div>
         <button id="configModalClose" formmethod="dialog" class="btn btn-secondary" type="submit" autofocus>Close Popup</button>
         <div class="float-right mr-5">
-            <button id="configModalDlConfig" title="Save the config to a file on your computer" class="btn btn-secondary ml-1" >Backup to file</button>
-            <button id="configModalUpConfig" title="Upload a backup config file and reload the page" class="btn btn-secondary ml-1" >Restore from file</button>
+            <!-- Space to place additional buttons if needed again in the future -->
         </div>
     </div>
 </form>
