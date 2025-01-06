@@ -227,6 +227,27 @@ PluginApi.Event.addEventListener("stash:location", (e) => {
 })
 
 
+function ensureLibLoaded(libname, timeout) {
+    var start = Date.now();
+    return new Promise(waitForLib);
+
+    function waitForLib(resolve, reject) {
+        if (window[libname]){
+            console.debug("Library loaded: ", libname)
+            resolve(window[libname])
+        }
+        else if (timeout && (Date.now() - start) >= timeout){
+            console.error("It seems you are missing a javascript library: ", libname)
+            reject(new Error("timeout"))
+        }
+        else{
+            setTimeout(waitForLib.bind(this, resolve, reject), 30)
+        }  
+    }
+}
+
+await ensureLibLoaded("csLib", 500)
+
 const btnConfig = new ButtonsConfig()
 const stashGQL = new StashGraphQL(window.location.origin + "/graphql")
 const pluginUI = new PluginUI(stashGQL, btnConfig)
