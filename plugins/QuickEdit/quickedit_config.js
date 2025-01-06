@@ -29,6 +29,16 @@ class ButtonsConfig{
         this.saveConfig()
     }
 
+    renameGroup(oldName, newName){
+        if(oldName!= "" && newName!=""){
+            this.groups[newName] = this.groups[oldName]
+            delete this.groups[oldName]
+            this.groups[newName].title = newName
+            const refreshedTags = this.tags.filter((tag) => tag.group == oldName)
+            refreshedTags.forEach(tag => tag.group = newName)
+        }
+    }
+
     moveGroup(groupId, position){
         let groups = this.getGroups()
         let groupIdx = groups.indexOf(groupId)
@@ -126,7 +136,6 @@ class ButtonsConfigUI{
         this.BTNCFG_CONTAINER = document.createElement("dialog")
         this.BTNCFG_CONTAINER.innerHTML = UI_BTNCFG_HTML
         this.BTNCFG_CONTAINER.querySelector("#configModalClose").addEventListener("click", () => this.hide())
-
         this.refreshGroups()
         this.BTNCFG_CONTAINER.querySelector("#addGroupButton").addEventListener("click", () => this.addGroup())
 
@@ -185,6 +194,12 @@ class ButtonsConfigUI{
                 <h5 class="card-title ml-1">` + group + `</h5>
             </div>
             `
+            groupTag.querySelector("div > h5").addEventListener("click", () => {
+                let newName = prompt("Rename group to:", group)
+                if(newName && newName != group){
+                    this.renameGroup(group,newName)
+                }
+            })
 
             const deleteBtn = createButton(-1 ,FA_TRASH_SVG ,"minimal btn btn-warning float-right mr-1", () => {
                 if(confirm("Are you sure you want to delete the group: " + group)){
@@ -264,7 +279,6 @@ class ButtonsConfigUI{
     }
 
     removeGroup(groupID){
-        console.log("Remove "+ groupID);
         this.buttonsConfig.removeGroup(groupID)
         this.BTNCFG_CONTAINER.querySelector("[id='configModalGroupsList" + groupID + "']").remove()
         this.refreshTagGroups()
@@ -278,6 +292,13 @@ class ButtonsConfigUI{
             this.refreshTagGroups()
             this.BTNCFG_CONTAINER.querySelector("#addGroupInput").value = ""
         }
+    }
+
+    renameGroup(oldName, newName){
+        this.buttonsConfig.renameGroup(oldName, newName)
+        this.refreshGroups()
+        this.refreshTagGroups()
+        this.buttonsConfig.saveConfig()
     }
 
     refreshTagList(){
