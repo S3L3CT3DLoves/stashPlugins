@@ -61,11 +61,19 @@ class ButtonsConfig{
     moveTag(tagId, newGroup){
         const tag = this.getTag(tagId)
         if(tag){
-            this.getTag(tagId).group = newGroup
+            tag.group = newGroup
             this.saveConfig()
             return true
         }
         return false
+    }
+
+    removeTag(tagId){
+        const tag = this.getTag(tagId)
+        if(tag){
+            this.tags.splice(this.tags.indexOf(tag),1)
+            this.saveConfig()
+        }
     }
 
     orderTags(){
@@ -350,6 +358,14 @@ class ButtonsConfigUI{
                 tagElement.appendChild(tagAliasInput)
                 tagElement.appendChild(tagButtonsContainer)
                 listContainer.appendChild(tagElement)
+            }
+
+            // Cleanup, if tags have been deleted
+            const existingTagIds = this.allStashTags.map(tag => Number(tag.id))
+            for (const tag of this.buttonsConfig.tags) {
+                if(!existingTagIds.includes(tag.stashId)){
+                    this.buttonsConfig.removeTag(tag.stashId)
+                }
             }
             this.refreshTagGroups()
         })

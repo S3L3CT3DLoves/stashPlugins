@@ -26,7 +26,6 @@ ToDo
 
 Features for the future
 - Background color for each group
-- Config export/restore to file
 
 
 # Configuration
