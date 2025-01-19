@@ -115,6 +115,7 @@ class ButtonsConfig{
         const storedTags = localStorage.getItem("easytag-tags")
 
         return csLib.getConfiguration('easytag', {"Groups" : storedGroups, "Tags" : storedTags}).then(storedConfig => {
+            console.debug(storedConfig)
             if(storedConfig){
                 this.groups = JSON.parse(storedConfig["Groups"])
                 Object.keys(this.groups).forEach((key) => this.groups[key] = GroupConfiguration.fromSavedData(this.groups[key], key))
