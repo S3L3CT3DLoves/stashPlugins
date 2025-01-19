@@ -1,7 +1,7 @@
 name: EasyTag
 description: UI plugin to add shortcuts for commonly used tags
 url: https://github.com/stashapp/CommunityScripts
-version: 0.16.1
+version: 0.16.2
 # requires: CommunityScriptsUILibrary
 
 ui:

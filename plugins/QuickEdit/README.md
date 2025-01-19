@@ -17,7 +17,6 @@ The plugin is automatically displayed as a Tab called *QuickEdit* in the Scene p
 Features
 - Saves your changes directly to Stash, no need to Save !
 - Fully configurable list of tags
-- Easy rating system
 
 ToDo
 - Bugfix: When using the native Edit tab, the changes made in QuickEdit are lost

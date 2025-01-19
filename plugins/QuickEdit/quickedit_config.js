@@ -226,6 +226,7 @@ class ButtonsConfigUI{
             e.preventDefault()
             if(confirm("This will delete your QuickEdit config permanently. Are you sure ?")){
                 this.buttonsConfig.clearConfig()
+                window.location.reload()
             }
         })
     }
