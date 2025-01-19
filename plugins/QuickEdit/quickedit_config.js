@@ -111,8 +111,8 @@ class ButtonsConfig{
 
     async loadConfig(){
         // For backwards compatibility
-        const storedGroups = localStorage.getItem("easytag-groups")
-        const storedTags = localStorage.getItem("easytag-tags")
+        const storedGroups = localStorage.getItem("easytag-groups") ?? {}
+        const storedTags = localStorage.getItem("easytag-tags") ?? []
 
         return csLib.getConfiguration('easytag', {"Groups" : storedGroups, "Tags" : storedTags}).then(storedConfig => {
             console.debug(storedConfig)
@@ -135,6 +135,18 @@ class ButtonsConfig{
             Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
         }
         */
+    }
+
+    loadConfigFromFile(fileContent){
+        let loadedConfig = JSON.parse(fileContent)
+
+        if("groups" in loadedConfig && "tags" in loadedConfig){
+            this.groups = loadedConfig.groups
+            Object.keys(this.groups).forEach((key) => this.groups[key] = GroupConfiguration.fromSavedData(this.groups[key], key))
+            this.tags = loadedConfig.tags
+            Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
+            this.saveConfig()
+        }
     }
 }
 
@@ -162,6 +174,23 @@ class ButtonsConfigUI{
         </button>
         `
         this.BTNCFG_BUTTON.addEventListener("click", () => this.show())
+
+        this.BTNCFG_CONTAINER.querySelector("#configModalUpConfig").addEventListener("click", (e) => {
+            e.preventDefault()
+            var input = document.createElement('input')
+            input.type = 'file'
+            input.accept = ".json"
+            input.onchange = e => { 
+                var file = e.target.files[0]
+                var reader = new FileReader()
+                reader.readAsText(file,'UTF-8')
+                reader.onload = readerEvent => {
+                    this.buttonsConfig.loadConfigFromFile(readerEvent.target.result)
+                    window.location.reload()
+                }
+            }
+            input.click()
+        })
     }
 
     enable(){
