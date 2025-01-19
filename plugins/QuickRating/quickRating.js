@@ -34,7 +34,6 @@ class QuickRating{
     this.ratingDisplayElement = null
     this.rating = 0
     this.sceneId = window.location.pathname.split('/')[2]
-    this.getRatingFromAPI()
   }
 
   updateDisplay(){
@@ -113,8 +112,12 @@ async function quickRating(page){
     quickRatingConfig = await getConfig()
   }
 
+  console.log("Run quickRating")
   if (scenePagePattern.test(page)){
+    console.log("Quickrating enabled")
     let quickRatingPlugin = new QuickRating()
+    await quickRatingPlugin.getRatingFromAPI()
+    
     csLib.waitForElement(".scene-toolbar-group", () => {
       quickRatingPlugin.updateDisplay()
     })
