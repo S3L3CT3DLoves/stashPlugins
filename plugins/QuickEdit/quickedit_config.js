@@ -111,8 +111,8 @@ class ButtonsConfig{
 
     async loadConfig(){
         // For backwards compatibility
-        const storedGroups = localStorage.getItem("easytag-groups") ?? {}
-        const storedTags = localStorage.getItem("easytag-tags") ?? []
+        const storedGroups = localStorage.getItem("easytag-groups") ?? "{}"
+        const storedTags = localStorage.getItem("easytag-tags") ?? "[]"
 
         return csLib.getConfiguration('easytag', {"Groups" : storedGroups, "Tags" : storedTags}).then(storedConfig => {
             console.debug(storedConfig)
