@@ -137,6 +137,25 @@ class ButtonsConfig{
         */
     }
 
+    saveConfigToFile(){
+        const savedConfig = {
+            groups : this.groups,
+            tags : this.tags
+        }
+
+        // Download the config
+        let blob = new Blob([JSON.stringify(savedConfig)], { type: "json" });
+        let a = document.createElement('a');
+        a.download = "QuickEdit.config.json";
+        a.href = URL.createObjectURL(blob);
+        a.dataset.downloadurl = ["json", a.download, a.href].join(':');
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
+    }
+
     loadConfigFromFile(fileContent){
         let loadedConfig = JSON.parse(fileContent)
 
@@ -190,6 +209,11 @@ class ButtonsConfigUI{
                 }
             }
             input.click()
+        })
+
+        this.BTNCFG_CONTAINER.querySelector("#configModalDlConfig").addEventListener("click", (e) => {
+            e.preventDefault()
+            this.buttonsConfig.saveConfigToFile()
         })
     }
 
