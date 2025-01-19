@@ -167,6 +167,12 @@ class ButtonsConfig{
             this.saveConfig()
         }
     }
+
+    clearConfig(){
+        this.groups = {}
+        this.tags = []
+        this.saveConfig()
+    }
 }
 
 /** ButtonsConfigUI contains the UI to manage the buttons configuration */
@@ -214,6 +220,13 @@ class ButtonsConfigUI{
         this.BTNCFG_CONTAINER.querySelector("#configModalDlConfig").addEventListener("click", (e) => {
             e.preventDefault()
             this.buttonsConfig.saveConfigToFile()
+        })
+
+        this.BTNCFG_CONTAINER.querySelector("#configModalClearConfig").addEventListener("click", (e) => {
+            e.preventDefault()
+            if(confirm("This will delete your QuickEdit config permanently. Are you sure ?")){
+                this.buttonsConfig.clearConfig()
+            }
         })
     }
 

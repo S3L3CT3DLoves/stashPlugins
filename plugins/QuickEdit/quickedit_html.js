@@ -32,6 +32,7 @@ const UI_BTNCFG_HTML = `
             <!-- Space to place additional buttons if needed again in the future -->
             <button id="configModalUpConfig" title="Upload a backup config file and reload the page" class="btn btn-secondary ml-1" >Restore config from file</button>
             <button id="configModalDlConfig" title="Save the config to a file on your computer" class="btn btn-secondary ml-1" >Backup config to file</button>
+            <button id="configModalClearConfig" title="Clear the configuration" class="btn btn-danger ml-1" >Clear config</button>
         </div>
     </div>
 </form>
