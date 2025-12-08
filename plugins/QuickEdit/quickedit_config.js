@@ -157,7 +157,7 @@ class ButtonsConfig{
         setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
     }
 
-    async loadConfigFromFile(fileContent){
+    loadConfigFromFile(fileContent){
         let loadedConfig = JSON.parse(fileContent)
 
         if("groups" in loadedConfig && "tags" in loadedConfig){
@@ -165,14 +165,14 @@ class ButtonsConfig{
             Object.keys(this.groups).forEach((key) => this.groups[key] = GroupConfiguration.fromSavedData(this.groups[key], key))
             this.tags = loadedConfig.tags
             Object.keys(this.tags).forEach((key) => this.tags[key] = TagConfiguration.fromSavedData(this.tags[key]))
-            await this.saveConfig()
+            this.saveConfig()
         }
     }
 
-    async clearConfig(){
+    clearConfig(){
         this.groups = {}
         this.tags = []
-        await this.saveConfig()
+        this.saveConfig()
     }
 }
 
@@ -211,9 +211,8 @@ class ButtonsConfigUI{
                 var reader = new FileReader()
                 reader.readAsText(file,'UTF-8')
                 reader.onload = readerEvent => {
-                    this.buttonsConfig.loadConfigFromFile(readerEvent.target.result).then(() => {
-                        window.location.reload();
-                    });
+                    this.buttonsConfig.loadConfigFromFile(readerEvent.target.result)
+                    window.location.reload()
                 }
             }
             input.click()
@@ -227,9 +226,8 @@ class ButtonsConfigUI{
         this.BTNCFG_CONTAINER.querySelector("#configModalClearConfig").addEventListener("click", (e) => {
             e.preventDefault()
             if(confirm("This will delete your QuickEdit config permanently. Are you sure ?")){
-                this.buttonsConfig.clearConfig().then(() => {
-                    window.location.reload();
-                });
+                this.buttonsConfig.clearConfig()
+                window.location.reload()
             }
         })
     }
@@ -403,7 +401,7 @@ class ButtonsConfigUI{
 
                 const tagTitle = document.createElement("div")
                 tagTitle.setAttribute("class", "col-2 my-auto")
-                tagTitle.innerText = tag.name
+                tagTitle.innerHTML =  tag.name + (tag.sort_name != "" ? " (<i>" + tag.sort_name +  "</i>)" : "")
                 if(tagC && tagC.group != ""){
                     tagTitle.classList.add("font-weight-bold")
                 }
