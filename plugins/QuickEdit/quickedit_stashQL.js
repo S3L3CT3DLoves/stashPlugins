@@ -192,19 +192,29 @@ class StashGraphQL{
     }
 
     async getAllTags(){
-        const query = `query AllTagsForFilter {
-            allTags {
-              id
-              name
-              aliases
-              __typename
+        const query = `query FindTags($filter: FindFilterType, $tag_filter: TagFilterType) {
+            findTags(filter: $filter, tag_filter: $tag_filter) {
+                count
+                tags {
+                    id
+                    name
+                    sort_name
+                    aliases
+                    __typename
+                }
+                __typename
             }
-          }
+        }
         `
         const queryBody = {
-            operationName : "AllTagsForFilter",
+            operationName : "FindTags",
             query : query,
             variables : {
+                "filter": {
+                    "sort": "name",
+                    "page": 1,
+                    "per_page": 99999
+                }
             }
         }
 

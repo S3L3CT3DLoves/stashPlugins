@@ -78,8 +78,8 @@ class ButtonsConfig{
 
     orderTags(){
         let orderedTags = this.tags.sort((tagA, tagB) => {
-            let nameA = tagA.getDisplayName()
-            let nameB = tagB.getDisplayName()
+            let nameA = tagA.getSortName()
+            let nameB = tagB.getSortName()
             return nameA.localeCompare(nameB)
         })
         this.tags = orderedTags
@@ -88,6 +88,7 @@ class ButtonsConfig{
     getOrCreateTag(stashTagData){
         let tag = this.getTag(stashTagData.id)
         if(tag){
+            tag.updateFromStashTag(stashTagData)
             return tag
         }
         tag = TagConfiguration.fromStashTag(stashTagData)
@@ -388,9 +389,13 @@ class ButtonsConfigUI{
         listContainer.innerHTML = ""
 
         this.stashQL.getAllTags().then((tags) => {
-            this.allStashTags = tags.data.allTags
+            this.allStashTags = tags.data.findTags.tags
             for (const tag of this.allStashTags) {
                 let tagC = this.buttonsConfig.getTag(tag.id)
+                // already exists -> update stash data (name, sort name)
+                if (tagC) {
+                    tagC.updateFromStashTag(tag);
+                }
 
                 const tagElement = document.createElement("div")
                 tagElement.setAttribute("class", "tag-list-row row")

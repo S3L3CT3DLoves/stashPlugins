@@ -5,10 +5,11 @@ const GroupType = {
 }
 
 class TagConfiguration{
-    constructor(id = -1, name = "", stashName = "", group = ""){
+    constructor(id = -1, name = "", stashName = "", stashSortName="", group = ""){
         this.stashId = id
         this.name = name
         this.stashName = stashName
+        this.stashSortName = stashSortName
         this.group = group
     }
 
@@ -17,6 +18,7 @@ class TagConfiguration{
             savedObject.stashId,
             savedObject.name,
             savedObject.stashName,
+            savedObject.stashSortName,
             savedObject.group
         )
     }
@@ -26,12 +28,22 @@ class TagConfiguration{
             Number(stashTagData.id),
             "",
             stashTagData.name,
+            stashTagData.sort_name,
             ""
         )
     }
 
-    getDisplayName(){
+    updateFromStashTag(stashTagData)  {
+        this.stashName =  stashTagData.name;
+        this.stashSortName = stashTagData.sort_name;
+    }
+
+    getDisplayName() {
         return this.name != "" ? this.name : this.stashName
+    }
+
+    getSortName() {
+        return (this.stashSortName ? this.stashSortName : '') + this.getDisplayName();
     }
 }
 
