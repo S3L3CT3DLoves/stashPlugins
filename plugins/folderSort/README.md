@@ -1,4 +1,7 @@
 # *folderSort*
+
+**This plugin is currently broken, working on a fix**
+
 Organise your PMV folder using data from Stash
 
 Designed to keep all your PMVs in folders named based on the PMV **Creator** (Stash Studio)
