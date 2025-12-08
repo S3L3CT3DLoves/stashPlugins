@@ -90,6 +90,7 @@ def generate_new_path(scene):
         return
     if not verify_base_path(scene.current_path):
         log.info(f"Not moving {scene.title} - It is not in the current Library scope")
+        return
     
     # No file renaming yet
 
@@ -175,7 +176,7 @@ def main():
             logger.warning(err)
             continue
         data.destination_path = generate_new_path(data)
-        if data.destination_path != data.current_path:
+        if data.destination_path is not None and data.destination_path != data.current_path:
             changed+=1
             log.info(f"Moving '{data.current_path}' to '{data.destination_path}'")
             logger.info(f"SceneChange(current:'{data.current_path}', destination:'{data.destination_path}', id:'{data.id}', title:'{data.title}')")
