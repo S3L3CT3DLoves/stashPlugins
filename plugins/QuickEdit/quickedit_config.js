@@ -21,6 +21,7 @@ class ButtonsConfig{
     }
     
     addGroup(groupId){
+        groupId = groupId.replace(/[^a-zA-Z0-9 ]/g, "");
         this.groups[groupId] = new GroupConfiguration(
             groupId,
             GroupType.Split,
@@ -31,6 +32,7 @@ class ButtonsConfig{
 
     renameGroup(oldName, newName){
         if(oldName!= "" && newName!=""){
+            newName = newName.replace(/[^a-zA-Z0-9 ]/g, "");
             this.groups[newName] = this.groups[oldName]
             delete this.groups[oldName]
             this.groups[newName].title = newName
@@ -272,10 +274,10 @@ class ButtonsConfigUI{
             groupTag.id = "configModalGroupsList" + group
             groupTag.innerHTML = `
             <div class="card-body">
-                <h5 class="card-title ml-1">` + group + `</h5>
+                <h5 class="card-title ml-1"><div>` + group + `</div></h5>
             </div>
             `
-            groupTag.querySelector("div > h5").addEventListener("click", () => {
+            groupTag.querySelector("div > h5 > div").addEventListener("click", () => {
                 let newName = prompt("Rename group to:", group)
                 if(newName && newName != group){
                     this.renameGroup(group,newName)
