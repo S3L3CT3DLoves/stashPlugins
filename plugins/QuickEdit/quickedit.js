@@ -221,7 +221,7 @@ class PluginUI {
 
 
 PluginApi.Event.addEventListener("stash:location", (e) => {
-    quickEditMain(e.detail.data.location.pathname.startsWith("/scenes/"))
+    quickEditMain(getSceneId(e.detail.data.location.pathname))
 })
 
 
@@ -255,11 +255,16 @@ function refreshUI(){
 
 const btnConfigUI = new ButtonsConfigUI(stashGQL, btnConfig, refreshUI)
 
-async function quickEditMain(display){
+function getSceneId(pathname){
+    const match = pathname.match(/^\/scenes\/(\d+)(?:\/|$)/)
+    return match ? match[1] : null
+}
+
+async function quickEditMain(sceneId){
     await ensureLibLoaded("csLib", 500)
     await btnConfig.loadConfig()
     btnConfigUI.refreshConfig(btnConfig)
-    if(display){
+    if(sceneId){
         // Always reset the UI, in case this is a Scene -> Scene page change
         pluginUI.hide()
         btnConfigUI.disable()
@@ -268,7 +273,7 @@ async function quickEditMain(display){
         await delay(500)
 
         // Get Scene data in stash
-        await stashGQL.getScene(window.location.pathname.split('/').pop())
+        await stashGQL.getScene(sceneId)
 
         pluginUI.ENABLED = true
         pluginUI.show()
@@ -283,7 +288,7 @@ async function quickEditMain(display){
 }
 
 // Init the plugin
-quickEditMain(window.location.pathname.startsWith("/scenes/"))
+quickEditMain(getSceneId(window.location.pathname))
 
 
 
